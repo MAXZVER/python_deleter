@@ -143,7 +143,12 @@ class Example(QWidget):
                     position -= 1
             position += 1
 
-        self.edit2.setText(inp)
+        # Analyze double space
+        res = inp.replace("  ", " ")
+
+
+
+        self.edit2.setText(res)
 
 if __name__ == '__main__':
 
