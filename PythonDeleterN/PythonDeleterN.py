@@ -1,6 +1,7 @@
 import sys
 import pymorphy2
 import re
+import pyperclip
 from PyQt5.QtWidgets import (QWidget, QToolTip,
     QPushButton, QApplication, QTextEdit, QLabel)
 from PyQt5.QtGui import QFont
@@ -14,6 +15,7 @@ class Example(QWidget):
         # Button's
         self.btn1 = QPushButton('Refact', self)
         self.btn2 = QPushButton('Clear Fields', self)
+        self.btn3 = QPushButton('Refact Paste', self)
 
         # Label's
         self.label1 = QLabel("Input Text", self)
@@ -35,9 +37,13 @@ class Example(QWidget):
 
         self.btn1.setToolTip('This is a <b>Refact</b> button to convert text')
         self.btn1.clicked.connect(self.Refactor)
-        self.btn1.resize(400, 100)
+        self.btn1.resize(195, 100)
         self.btn1.move(10, 470)
 
+        self.btn3.setToolTip('This is a <b>Paste Refactor</b> button to convert text')
+        self.btn3.clicked.connect(self.Refactor_Paste)
+        self.btn3.resize(195, 100)
+        self.btn3.move(210, 470)
         
         self.btn2.setToolTip('This is a <b>Clear Fields</b> button to clear text fields')
         self.btn2.clicked.connect(self.Clear_fields)
@@ -51,6 +57,7 @@ class Example(QWidget):
         # Set font size
         self.btn1.setFont(font_btn)
         self.btn2.setFont(font_btn)
+        self.btn3.setFont(font_btn)
 
         
         self.label1.move(10,10)
@@ -86,7 +93,12 @@ class Example(QWidget):
         self.edit1.setText("")
         self.edit2.setText("")
 
+    def Refactor_Paste(self):
+        self.edit1.setText(pyperclip.paste())
+        self.Refactor()
+
     def Refactor(self):
+
         inp = self.edit1.toPlainText()
         
         position = 0
@@ -146,8 +158,7 @@ class Example(QWidget):
         # Analyze double space
         res = inp.replace("  ", " ")
 
-
-
+        pyperclip.copy(res)
         self.edit2.setText(res)
 
 if __name__ == '__main__':
